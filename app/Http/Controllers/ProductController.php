@@ -46,7 +46,7 @@ class ProductController extends Controller
         $input['image'] = "$profileImage";
         }
 
-        $product = Product::create($input);
+        Product::create($input);
         return redirect()->route('index')->with('success', 'Produto criado com sucesso.');
     }
 
@@ -95,6 +95,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        
+        $product->delete();
+        return redirect()->route('index')->with('success', 'Produto apagado com sucesso.');
     }
 }
