@@ -63,7 +63,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('edit',compact('product'));
     }
 
     /**
@@ -71,7 +71,23 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' =>'required',
+            'detail'=>'required',
+        ]);
+
+        $input = $request->all();
+
+        if($image = $request->file('image')){
+            $destinationPath = 'images/';
+            $profileImage = date("YmdHis") . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+            }else{
+                unset($input['image']);
+            }
+            $product->update($input);
+            return redirect()->route('index')->with('success','Produto atualizado com sucesso');
     }
 
     /**
@@ -79,6 +95,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        
     }
 }
