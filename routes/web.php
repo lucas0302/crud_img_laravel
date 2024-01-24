@@ -18,4 +18,6 @@ use App\Http\Controllers\ProductController;
 // });
 
 Route::get('/', [ProductController::class, 'index'])->name('index');
+Route::get('/create', [ProductController::class, 'create'])->name('create');
+Route::post('store/', [ProductController::class, 'store'])->name('store');
 

@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -30,7 +30,24 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' =>'required',
+            'detail'=>'required',
+            'image'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // upload do arquivo
+        $input = $request->all();
+
+        if($image = $request->file('image')){
+        $destinationPath = 'images/';
+        $profileImage = date("YmdHis") . "." . $image->getClientOriginalExtension();
+        $image->move($destinationPath, $profileImage);
+        $input['image'] = "$profileImage";
+        }
+
+        $product = Product::create($input);
+        return redirect()->route('index')->with('success', 'Produto criado com sucesso.');
     }
 
     /**
