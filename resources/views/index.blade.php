@@ -7,7 +7,7 @@
                 <h2>Laravel CRUD com Imagem</h2>
             </div>
             <div class="pull-right" style="margin-bottom:10px;">
-            <a class="btn btn-success" href="{{ url('create') }}"> Novo Produto</a>
+            <a class="btn btn-success" href="{{ url('create') }}">Novo Produto</a>
             </div>
         </div>
     </div>
