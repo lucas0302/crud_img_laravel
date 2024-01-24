@@ -20,7 +20,7 @@
 
     <table class="table table-bordered">
         <tr>
-            <th>No</th>
+            <th>#</th>
             <th>Imagem</th>
             <th>Nome</th>
             <th>Detalhe</th>
