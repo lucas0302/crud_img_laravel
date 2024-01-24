@@ -35,7 +35,7 @@
             <td>
                 <form action="{{-- route('destroy',$product->id) --}}" method="POST">
 
-                    <a class="btn btn-info" href="{{-- route('show',$product->id) --}}">Visualizar</a>
+                    <a class="btn btn-info" href="{{ route('show',$product->id) }}">Visualizar</a>
 
                     <a class="btn btn-primary" href="{{-- route('edit',$product->id) --}}">Editar</a>
 
