@@ -12,9 +12,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(5);
-
+        $products = Product::latest()->paginate(2);//latest() serve para ordenar os registros em ordem decrescente paginate(5) é aplicado para dividir os resultados em conjuntos de 5 registros por página
         return view('index', compact('products'))->with('i',(request()->input('page', 1) -1) *5);
+        //request() = requisicão http recebida pelo cliente
     }
 
     /**
@@ -43,7 +43,7 @@ class ProductController extends Controller
         $destinationPath = 'images/';
         $profileImage = date("YmdHis") . "." . $image->getClientOriginalExtension();
         $image->move($destinationPath, $profileImage);
-        $input['image'] = "$profileImage";
+        $input['image'] = $profileImage;
         }
 
         Product::create($input);
