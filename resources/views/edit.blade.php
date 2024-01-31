@@ -12,26 +12,16 @@
         </div>
     </div>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Ops!</strong> Houve alguns problemas com seu input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{route('update',$product->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
-         <div class="row">
+        <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Nome:</strong>
-                    <input type="text" name="name" value="{{ $product->name }}" class="form-control" placeholder="Nome">
+                    <input type="text" name="name" value="{{ $product->name }}" class="form-control"
+                        placeholder="Nome">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -43,12 +33,15 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Imagem:</strong>
-                    <input type="file" name="image" class="form-control" placeholder="imagem">
+                    <input type="file" name="image" class="form-control">
+                    @error('image')
+                        <small class="text-danger">{{ $message }}<br></small>
+                    @enderror
                     <img src="/images/{{ $product->image }}" width="100px">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-              <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </div>
 

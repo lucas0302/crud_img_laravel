@@ -22,4 +22,4 @@ Route::get('edit/{product}', [ProductController::class,'edit'])->name('edit');
 Route::put('edit/{product}', [ProductController::class, 'update'])->name('update');
 
 // rota para deletar o produto em específico
-Route::delete('/{product}',[ProductController::class ,'destroy'])->name('destroy');
+Route::get('/{product}',[ProductController::class ,'destroy'])->name('destroy');
