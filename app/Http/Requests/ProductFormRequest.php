@@ -32,7 +32,9 @@ class ProductFormRequest extends FormRequest
     {
         return [
             'required' => 'Este campo é obrigatório.',
-
+            'name.required' => 'O campo nome é obrigatório.',
+            'detail.required' => 'O campo detalhe é obrigatório.',
+            'image.required' => 'A imagem é obrigatória.',
         ];
     }
 }
