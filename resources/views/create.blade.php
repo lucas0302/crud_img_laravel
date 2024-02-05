@@ -40,7 +40,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Imagem:</strong>
-                    <input type="file" name="image" class="form-control" multiple>
+                    <input type="file" name="image[]" class="form-control" multiple>
                     @error('image')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
