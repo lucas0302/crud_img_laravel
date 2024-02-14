@@ -50,6 +50,7 @@ class ProductController extends Controller
                 $product->productImage()->create([
                     'product_id' => $product->id,
                     'image_path' =>$something2
+                    
                 ]);
 
             }
