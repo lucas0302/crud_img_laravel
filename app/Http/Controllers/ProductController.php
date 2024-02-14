@@ -41,15 +41,15 @@ class ProductController extends Controller
         if($request->hasFile('image')){                                  // se tiver uma img ele retorna booleano
 
             $count = 1;
-            foreach($request->file('image') as $requestImg){                       //pega a img no campo
-                $ext = $requestImg->getClientOriginalExtension();                //pega o arquivo original
+            foreach($request->file('image') as $something){                       //pega a img no campo
+                $ext = $something->getClientOriginalExtension();                //pega o arquivo original
                 $filename = time() .$count++ .'.'. $ext;                            //gera o nome unico
-                $requestImg->move($uploadImages , $filename);                       // mover o diretorio
-                $requestImg2 = $uploadImages . $filename;                    //guarda um array de img com a chave 'image' e validando
+                $something->move($uploadImages , $filename);                       // mover o diretorio
+                $something2 = $uploadImages . $filename;                    //guarda um array de img com a chave 'image' e validando
 
                 $product->productImage()->create([
                     'product_id' => $product->id,
-                    'image_path' =>$requestiImg2
+                    'image_path' =>$something2
                 ]);
 
             }
