@@ -25,11 +25,16 @@
                 {{ $product->detail }}
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Imagem:</strong>
-                <img src="/images/{{ $product->image }}" width="100px">
-            </div>
-        </div>
+        
+        @if($product->image)
+            @foreach ($product->image as $item)
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Imagem:</strong>
+                        <img src="/images/{{ asset($item->image) }}" width="100px">
+                    </div>
+                </div>
+            @endforeach
+        @endif
     </div>
 @endsection

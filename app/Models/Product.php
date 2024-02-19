@@ -18,7 +18,7 @@ class Product extends Model
         'detail'];
 
     public function productImage()
-{
-    return $this->hasMany(ProductImage::class, 'product_id', 'id');
-}
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
 }

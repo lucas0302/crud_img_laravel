@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $products = Product::latest()->paginate(4);//latest() serve para ordenar os registros em ordem decrescente paginate(5) é aplicado para dividir os resultados em conjuntos de 5 registros por página
@@ -19,9 +17,6 @@ class ProductController extends Controller
         //request() = requisicão http recebida pelo cliente
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('create');
@@ -29,39 +24,36 @@ class ProductController extends Controller
 
     public function store(ProductFormRequest $request)
     {
-        $validatedData = $request->validated();
-        $uploadImages = 'images/';
 
+        $validatedData = $request->validated();
         $products = new Product;
 
         $products->name = $validatedData['name'];
         $products->detail = $validatedData['detail'];
 
+        $products->save();
+
         // upload do arquivo
-        if($request->hasFile('image')){                                  // se tiver uma img ele retorna booleano
+        if($request->hasFile('image'))
+        {  // se tiver uma img ele retorna booleano
+            $uploadImages = 'images';
 
-            $count = 1;
-            foreach($request->file('image') as $something){                       //pega a img no campo
-                $ext = $something->getClientOriginalExtension();                //pega o arquivo original
-                $filename = time() .$count++ .'.'. $ext;                            //gera o nome unico
-                $something->move($uploadImages , $filename);                       // mover o diretorio
-                $something2 = $uploadImages . $filename;                    //guarda um array de img com a chave 'image' e validando
+            $i = 1;
+            foreach($request->file('image') as $images){                           //pega a img no campo
+                $ext = $images->getClientOriginalExtension();                     //pega o arquivo original
+                $filename = time() .$i++ .'.'. $ext;                         //gera o nome unico
+                $images->move($uploadImages , $filename);                       // mover o diretorio
+                $imagePath = $uploadImages.$filename;                          //guarda um array de img com a chave 'image' e validando
 
-                $product->productImage()->create([
-                    'product_id' => $product->id,
-                    'image_path' =>$something2
-                    
+                $products->productImage()->create([
+                    'product_id' => $products->id,
+                    'image' => $imagePath
+
                 ]);
-
             }
         }
-        // try {
-             //$products
-        // } catch (Exception $teste) {
-             //
-        // }
 
-        return redirect('/')->with('success', 'Produto criado com sucesso.');   //redirecionando para a route('index') e retornado uma msg de prod criado
+        return redirect('/')->with('success', 'Produto criado com sucesso.');//redirecionando para a route('index') e retornado uma msg de prod criado
     }
 
     public function show(Product $product)
