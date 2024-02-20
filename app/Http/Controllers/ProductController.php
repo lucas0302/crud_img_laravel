@@ -36,7 +36,7 @@ class ProductController extends Controller
         // upload do arquivo
         if($request->hasFile('image'))
         {  // se tiver uma img ele retorna booleano
-            $uploadImages = 'images';
+            $uploadImages = 'images/';
 
             $i = 1;
             foreach($request->file('image') as $images){                           //pega a img no campo
