@@ -114,15 +114,18 @@ class ProductController extends Controller
     }
 
     public function destroy(Product $product)
-    {         //modificar o delte para apagar no relacionamento do bd e na pasta do laravel
-        if($product->count() > 0){
-        $destination = $product->image;                                      //pega image da models Product que esta ligada com o BD
-            if(File::exists($destination)){                                 //verifica se existe uma img em um local específico
-                File::delete($destination);
+    {
+        if ($product->productImage()->count() > 0) {
+            foreach ($product->productImage as $image) {
+                $imagePath = $image->image; // Constrói o caminho completo da imagem
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+                $image->delete(); // Exclui a imagem no bd
             }
-        $product->delete(); //apaga os dados do bd
-        return redirect()->route('index')->with('success', 'Produto apagado com sucesso.');         //redirecionar e retornar um msg
         }
-        return redirect()->route('index')->with('message', 'Algo deu Errado.');                   //redirecionar e retornar um msg de erro
-    }
+        $product->delete(); // exclui o produto
+
+        return redirect()->route('index')->with('success', 'Produto apagado com sucesso.');
+}
 }
