@@ -37,12 +37,24 @@
                     @error('image')
                         <small class="text-danger">{{ $message }}<br></small>
                     @enderror
+
+                    @if ($message = Session::get('success'))
+                        <div id="success-message" class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
+                    
                     @if ($product->productImage)
                         @foreach ($product->productImage as $item)
-                            <div class="btn btn-danger">x</div>
-                            <img src="{{ asset($item->image) }}" width="100px">
+                            <div class="image-container" style="display: inline-block; position: relative;">
+                                <img src="{{ asset($item->image) }}" width="100px">
+                                <a href="{{ route('deleteImage', $item->id) }}" class="btn btn-danger"
+                                    style="position: absolute; top: 0; right: 0; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 10px; padding: 0;"
+                                    onclick="return confirm('Tem certeza que deseja apagar esta imagem?')">x</a>
+                            </div>
                         @endforeach
                     @endif
+
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -51,4 +63,15 @@
         </div>
 
     </form>
+
+    {{-- script js para tirar a msg deccess --}}
+    <script>
+        window.onload = function() {
+            if (document.getElementById("success-message")) {
+                setTimeout(function() {
+                    document.getElementById("success-message").style.display = 'none';
+                }, 2000);
+            }
+        }
+    </script>
 @endsection

@@ -23,3 +23,6 @@ Route::put('edit/{product}', [ProductController::class, 'update'])->name('update
 
 // rota para deletar o produto em específico
 Route::get('/{product}',[ProductController::class ,'destroy'])->name('destroy');
+
+//rota para apagar a img do edit
+Route::get('/products/delete-image/{imageId}', [ProductController::class ,'deleteImage'])->name('deleteImage');

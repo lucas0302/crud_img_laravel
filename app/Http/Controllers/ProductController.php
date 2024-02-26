@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductFormRequest;
 use Illuminate\Support\Facades\File;
+use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
@@ -96,7 +97,22 @@ class ProductController extends Controller
 
         return redirect('/')->with('success', 'Produto atualizado com sucesso.');
     }
-  
+
+    public function deleteImage($imageId)
+    {
+        $image = ProductImage::find($imageId);
+        if ($image) {
+            $imagePath = $image->image;
+            if (File::exists($imagePath)) {
+                File::delete($imagePath); // Remove a imagem do disco
+            }
+            $image->delete();
+
+            return back()->with('success', 'Imagem removida com sucesso.');
+        }
+        return back()->with('error', 'Imagem não encontrada.');
+    }
+
     public function destroy(Product $product)
     {         //modificar o delte para apagar no relacionamento do bd e na pasta do laravel
         if($product->count() > 0){
