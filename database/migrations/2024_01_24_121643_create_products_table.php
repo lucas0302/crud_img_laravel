@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->text('detail');
             $table->timestamps();
+
         });
+
     }
 
     /**
@@ -26,4 +28,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('products');
     }
+    
 };
+
