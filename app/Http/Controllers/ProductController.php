@@ -12,8 +12,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::latest()->paginate(4);//latest() serve para ordenar os registros em ordem decrescente paginate(5) é aplicado para dividir os resultados em conjuntos de 5 registros por página
-        return view('index', compact('products'))->with('i',(request()->input('page', 1) -1) *5);
+        $products = Product::all();//latest() serve para ordenar os registros em ordem decrescente paginate(5) é aplicado para dividir os resultados em conjuntos de 5 registros por página
+        return view('index', compact('products'));
         //request() = requisicão http recebida pelo cliente
     }
 
@@ -33,11 +33,11 @@ class ProductController extends Controller
 
         $products->save();
 
+
         // upload do arquivo
         if($request->hasFile('image'))
         {  // se tiver uma img ele retorna booleano
             $uploadImages = 'images/';
-
             $i = 1;
             foreach($request->file('image') as $images){                           //pega a img no campo
                 $ext = $images->getClientOriginalExtension();                     //pega o arquivo original
@@ -70,26 +70,35 @@ class ProductController extends Controller
     {
         $validatedData = $request->validated();
 
-        // upload do arquivo
-        if($request->hasFile('image')){                                             // se tiver uma img ele retorna booleano
-            $destination = $product->image;                                        //pega image da models Product que esta ligada com o BD
-            if(File::exists($destination)){                                       //verifica se existe uma img em um local específico
-                File::delete($destination);                                      //deleta a img do local em específico
+        // Atualiza os dados do produto
+        $product->name = $validatedData['name'];
+        $product->detail = $validatedData['detail'];
+        $product->save();
+
+        // Trata o upload das novas imagens
+        if ($request->hasFile('image')) {
+            $uploadImagesDir = 'images/'; // Diretório de upload
+            $i = 1;
+            foreach ($request->file('image') as $image) {
+                $ext = $image->getClientOriginalExtension(); // Pega a extensão do arquivo
+                $filename = time() . $i++ . '.' . $ext; // Gera um nome único
+                $image->move($uploadImagesDir, $filename); // Move para o diretório
+                $imagePath = $uploadImagesDir.$filename;
+
+                // Cria uma nova entrada para cada imagem
+                $product->productImage()->create([
+                    'product_id' => $product->id,
+                    'image' => $imagePath
+                ]);
+
             }
-
-            $file = $request->file('image');                                    //pega a img no campo
-            $ext = $file->getClientOriginalExtension();                        //pega o arquivo original
-            $filename = time() .'.'. $ext;                                    //gera o nome unico
-            $file->move('images/', $filename);                               // mover o diretorio
-            $validatedData['image'] = $filename;                            //guarda um array de img com a chave 'image' e validando
-
         }
-        $product->update($validatedData);                                // atualizar o bd
-        return redirect('/')->with('success','Produto atualizado com sucesso');//redirecionar e retornar um msg
-    }
 
+        return redirect('/')->with('success', 'Produto atualizado com sucesso.');
+    }
+  
     public function destroy(Product $product)
-    {
+    {         //modificar o delte para apagar no relacionamento do bd e na pasta do laravel
         if($product->count() > 0){
         $destination = $product->image;                                      //pega image da models Product que esta ligada com o BD
             if(File::exists($destination)){                                 //verifica se existe uma img em um local específico
@@ -98,7 +107,6 @@ class ProductController extends Controller
         $product->delete(); //apaga os dados do bd
         return redirect()->route('index')->with('success', 'Produto apagado com sucesso.');         //redirecionar e retornar um msg
         }
-
         return redirect()->route('index')->with('message', 'Algo deu Errado.');                   //redirecionar e retornar um msg de erro
     }
 }

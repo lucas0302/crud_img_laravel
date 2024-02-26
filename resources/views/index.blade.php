@@ -17,17 +17,6 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    
-    {{-- script js para tirar a msg deccess --}}
-    <script>
-        window.onload = function() {
-            if (document.getElementById("success-message")) {
-                setTimeout(function() {
-                    document.getElementById("success-message").style.display = 'none';
-                }, 2000);
-            }
-        }
-    </script>
 
     <table class="table table-bordered">
         <tr>
@@ -38,19 +27,32 @@
             <th width="280px">Ação</th>
         </tr>
         @foreach ($products as $product)
-        <tr>
-            <td>{{ ++$i }}</td>
-            <td><img src="/images/{{ $product->image }}" width="100px"></td>
-            <td>{{ $product->name }}</td>
-            <td>{{ $product->detail }}</td>
-            <td>
-                <a class="btn btn-info" href="{{ route('show', $product->id) }}">Visualizar</a>
-                <a class="btn btn-primary" href="{{ route('edit', $product->id) }}">Editar</a>
-                <a href="{{ route('destroy', $product->id) }}"
-                    onclick="return confirm('Tem Certeza que Deseja Deletar esse Item?')" class="btn btn-danger">
-                    Deletar</a>
-            </td>
-        </tr>
+            <tr>
+                <td>{{ $product->id }}</td>
+                <td>
+                    <img src="{{ $product->productImage[0]->image }}" width="100px" alt="image">
+                </td>
+                <td>{{ $product->name }}</td>
+                <td>{{ $product->detail }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('show', $product->id) }}">Visualizar</a>
+                    <a class="btn btn-primary" href="{{ route('edit', $product->id) }}">Editar</a>
+                    <a href="{{ route('destroy', $product->id) }}"
+                        onclick="return confirm('Tem Certeza que Deseja Deletar esse Item?')" class="btn btn-danger">
+                        Deletar</a>
+                </td>
+            </tr>
         @endforeach
     </table>
+
+    {{-- script js para tirar a msg deccess --}}
+    <script>
+        window.onload = function() {
+            if (document.getElementById("success-message")) {
+                setTimeout(function() {
+                    document.getElementById("success-message").style.display = 'none';
+                }, 2000);
+            }
+        }
+    </script>
 @endsection

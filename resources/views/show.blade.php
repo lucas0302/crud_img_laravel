@@ -25,13 +25,13 @@
                 {{ $product->detail }}
             </div>
         </div>
-        
-        @if($product->image)
-            @foreach ($product->image as $item)
+
+        @if ($product->productImage)
+            <strong>Imagem:</strong>
+            @foreach ($product->productImage as $item)
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Imagem:</strong>
-                        <img src="/images/{{ asset($item->image) }}" width="100px">
+                        <img src="{{ asset($item->image) }}" width="100px">
                     </div>
                 </div>
             @endforeach

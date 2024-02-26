@@ -33,11 +33,16 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Imagem:</strong>
-                    <input type="file" name="image[]" class="form-control">
+                    <input type="file" name="image[]" class="form-control" multiple>
                     @error('image')
                         <small class="text-danger">{{ $message }}<br></small>
                     @enderror
-                    <img src="/images/{{ $product->image }}" width="100px">
+                    @if ($product->productImage)
+                        @foreach ($product->productImage as $item)
+                            <div class="btn btn-danger">x</div>
+                            <img src="{{ asset($item->image) }}" width="100px">
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
