@@ -43,7 +43,7 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-                    
+
                     @if ($product->productImage)
                         @foreach ($product->productImage as $item)
                             <div class="image-container" style="display: inline-block; position: relative;">

@@ -100,7 +100,7 @@ class ProductController extends Controller
 
     public function deleteImage($imageId)
     {
-        $image = ProductImage::find($imageId);
+        $image = ProductImage::findOrFail($imageId);// findOrFail para mostrar um erro 404
         if ($image) {
             $imagePath = $image->image;
             if (File::exists($imagePath)) {
