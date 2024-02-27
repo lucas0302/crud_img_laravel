@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 
 //rota da pagina principal
 Route::controller(ProductController::class)->group(function(){
+    //rota para a pagina principal
     Route::get('/', 'index')->name('index');
 
     //rota para criar o produtos
